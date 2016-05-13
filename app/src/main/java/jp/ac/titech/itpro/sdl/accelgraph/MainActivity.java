@@ -26,6 +26,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private GraphRefreshThread th = null;
     private Handler handler;
 
+    private final int N = 5;
+    private float[] ax = new float[N];
+    private int idx = 0;
     private float vx, vy, vz;
     private float rate;
     private int accuracy;
@@ -74,7 +77,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        vx = event.values[0];
+///*
+        ax[idx] = event.values[0];
+        float sx = 0;
+        for (int i = 0;i <N; i++)
+            sx += ax[i];
+        vx = sx / N;
+        idx = (idx + 1) % N;
+//*/
+//        vx = event.values[0]; //default
         vy = event.values[1];
         vz = event.values[2];
         rate = ((float) (event.timestamp - prevts)) / (1000 * 1000);
